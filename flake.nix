@@ -29,6 +29,12 @@
         ];
       in
         bin32 ++ native;
+      NIX_CFLAGS_COMPILE = [
+        "-isystem ${pkgsi686.python311}/include/${pkgsi686.python311.libPrefix}"
+      ];
+      NIX_LDFLAGS = [
+        "-l${pkgsi686.python311.libPrefix}"
+      ];
     };
     packages.x86_64-linux.default = pkgs.callPackage ./package.nix {};
   };
