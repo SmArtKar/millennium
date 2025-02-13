@@ -6,34 +6,25 @@
   };
 
   outputs = {nixpkgs, ...}: let
-    pkgsi686 = import nixpkgs {
-      system = "i686-linux";
-    };
     pkgs = import nixpkgs {
-      system = "x86_64-linux";
+      system = "i686-linux";
     };
   in {
     devShells."x86_64-linux".default = pkgs.mkShellNoCC {
       stdenv = pkgs.multiStdenv;
       name = "Millennium";
-      packages = let
-        bin32 = with pkgsi686; [
-          python311Full
-          curl
-          gcc
-          cmake
-          ninja
-        ];
-        native = with pkgs; [
-          gcc
-        ];
-      in
-        bin32 ++ native;
+      packages = with pkgs; [
+        python311Full
+        curl
+        gcc
+        cmake
+        ninja
+      ];
       NIX_CFLAGS_COMPILE = [
-        "-isystem ${pkgsi686.python311}/include/${pkgsi686.python311.libPrefix}"
+        "-isystem ${pkgs.python311}/include/${pkgs.python311.libPrefix}"
       ];
       NIX_LDFLAGS = [
-        "-l${pkgsi686.python311.libPrefix}"
+        "-l${pkgs.python311.libPrefix}"
       ];
     };
     packages.x86_64-linux.default = pkgs.callPackage ./package.nix {};
