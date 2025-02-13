@@ -28,6 +28,7 @@ stdenv_32bit.mkDerivation {
     ninja
   ];
 
+  # FIXME: i have no ideas how should CMake be used. @mourogurt fix this pls.
   configurePhase = ''
     cmake -G Ninja
   '';
