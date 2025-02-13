@@ -30,5 +30,6 @@
       in
         bin32 ++ native;
     };
+    packages.x86_64-linux.default = pkgs.callPackage ./package.nix {};
   };
 }
