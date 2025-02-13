@@ -5,6 +5,7 @@
   curl,
   cmake,
   ninja,
+  makeWrapper,
   lib,
 }:
 stdenv_32bit.mkDerivation {
@@ -28,12 +29,11 @@ stdenv_32bit.mkDerivation {
     ninja
   ];
 
-  # FIXME: i have no ideas how should CMake be used. @mourogurt fix this pls.
   configurePhase = ''
     cmake -G Ninja
   '';
-  buildPhase = ''
-    cmake --build .
+  installPhase = ''
+    cmake --install . --prefix $out
   '';
   NIX_CFLAGS_COMPILE = ["-isystem ${python311}/include/${python311.libPrefix}"];
   NIX_LDFLAGS = ["-l${python311.libPrefix}"];
