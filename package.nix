@@ -5,10 +5,9 @@
   curl,
   cmake,
   ninja,
-  makeWrapper,
   lib,
 }:
-stdenv_32bit.mkDerivation {
+stdenv_32bit.mkDerivation rec {
   pname = "millennium";
   version = "2.17.2";
 
@@ -34,6 +33,12 @@ stdenv_32bit.mkDerivation {
   '';
   installPhase = ''
     cmake --install . --prefix $out
+    cp ${src}/scripts/posix/start.sh $out/bin/millennise
+    chmod +x $out/bin/millennise
+  '';
+  postFixup = ''
+    substituteInPlace $out/bin/millennise \
+      --replace '#!*bash' '/#!bin/bash'
   '';
   NIX_CFLAGS_COMPILE = ["-isystem ${python311}/include/${python311.libPrefix}"];
   NIX_LDFLAGS = ["-l${python311.libPrefix}"];
