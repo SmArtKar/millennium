@@ -38,7 +38,7 @@ add_compile_definitions(
 # Add the executable
 add_library(preload SHARED main.cc src/steam.cc src/http.cc src/unzip.cc)
 
-target_link_libraries(preload CURL::libcurl unofficial::minizip::minizip)
+target_link_libraries(preload CURL::libcurl minizip-ng)
 
 set_target_properties(preload PROPERTIES OUTPUT_NAME "user32")
 set_target_properties(preload PROPERTIES PREFIX "")
