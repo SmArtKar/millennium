@@ -5,6 +5,8 @@
   curl,
   cmake,
   ninja,
+  steam-run,
+  bash,
   lib,
 }:
 stdenv_32bit.mkDerivation rec {
@@ -33,12 +35,14 @@ stdenv_32bit.mkDerivation rec {
   '';
   installPhase = ''
     cmake --install . --prefix $out
-    cp ${src}/scripts/posix/start.sh $out/bin/millennise
-    chmod +x $out/bin/millennise
+    mv $out/bin/millennium $out/bin/millennium-cli
+    cp ${src}/scripts/posix/start.sh $out/bin/millennium
   '';
   postFixup = ''
-    substituteInPlace $out/bin/millennise \
-      --replace '#!*bash' '/#!bin/bash'
+    substituteInPlace $out/bin/millennium \
+      --replace '${bash}/bin/bash' '${steam-run}/bin/steam-run bash' \
+      --replace '/usr/lib/millennium' '../lib' \
+      --replace '/usr/lib/steam/steam' '~/.steam/steam/steam.sh'
   '';
   NIX_CFLAGS_COMPILE = ["-isystem ${python311}/include/${python311.libPrefix}"];
   NIX_LDFLAGS = ["-l${python311.libPrefix}"];
