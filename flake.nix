@@ -8,12 +8,14 @@
   outputs = {nixpkgs, ...}: let
     pkgs = import nixpkgs {
       system = "i686-linux";
+      config.allowUnfree = true;
     };
   in {
     devShells."x86_64-linux".default = pkgs.mkShellNoCC {
       stdenv = pkgs.multiStdenv;
       name = "Millennium";
       packages = with pkgs; [
+        bash
         python311Full
         curl
         gcc
