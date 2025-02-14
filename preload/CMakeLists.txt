@@ -29,7 +29,7 @@ elseif(UNIX AND NOT GITHUB_ACTION_BUILD)
 endif()
 
 find_package(CURL REQUIRED) # used for web requests.
-find_package(unofficial-minizip CONFIG REQUIRED) # used for extracting zip files
+find_package(minizip-ng CONFIG REQUIRED) # used for extracting zip files
 
 add_compile_definitions(
   CURL_STATICLIB
