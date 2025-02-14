@@ -44,6 +44,8 @@ https://github.com/SteamClientHomebrew/Millennium/assets/81448108/0c4a0ea0-7995-
 
 ## Installation
 
+Currently we haven't any distro specific distros (except some Nix workarounds by @Sk7Str1p3) so you can use instructions below:
+
 ### Automatic Installation (Recommended)
 
   Installing Millennium is only a few steps. See [this page](https://docs.steambrew.app/users/installing#automatic) for a more detailed guide.
@@ -211,4 +213,25 @@ You can install NodeJs from MinGW, or you could use your local install from Powe
 
     You can either symlink them or copy them over. 
 
+### Linux
+
+For now, we have only Nix environment ready, but you can simply install packages declared in `flake.nix` on your distro for approximately same env or install Nix on your system.
+
+### Build steps
+
+1. Install Dependencies
+  Our flake provides environment with required packages. All you need to do is run `nix develop` or, if using direnv, just enter source directory. if not using Nix, install 32bit versions of following packages:
+  ```
+    python 3.11
+    curl
+    gcc
+    cmake
+    ninja
+  ```
+1. Configure package with `cmake -G Ninja`
+1. Build and install package
+  ```bash
+  $ cmake --install . --prefix ~/millennium
+  ``` 
+  (`--prefix` is unnecessary ; default install prefix is /usr)
 
