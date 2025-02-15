@@ -34,11 +34,6 @@ stdenv_32bit.mkDerivation rec {
     cmake -G Ninja
   '';
 
-  buildPhase = ''
-    cd ..
-    cmake --build build_x86_64 --parallel
-  '';
-
   installPhase = ''
     runHook preInstall
     cmake --install . "--prefix $out"
