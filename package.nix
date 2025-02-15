@@ -34,9 +34,11 @@ stdenv_32bit.mkDerivation rec {
     cmake -G Ninja
   '';
   installPhase = ''
-    cmake --install . --prefix $out
+    runHook preInstall
+    cmake --install . "--prefix $out"
     mv $out/bin/millennium $out/bin/millennium-cli
     cp ${src}/scripts/posix/start.sh $out/bin/millennium
+    runHook postInstall
   '';
   postFixup = ''
     substituteInPlace $out/bin/millennium \
