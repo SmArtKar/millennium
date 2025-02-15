@@ -33,6 +33,12 @@ stdenv_32bit.mkDerivation rec {
   configurePhase = ''
     cmake -G Ninja
   '';
+
+  buildPhase = ''
+    cd ..
+    cmake --build build_x86_64 --parallel
+  '';
+
   installPhase = ''
     runHook preInstall
     cmake --install . "--prefix $out"
@@ -40,12 +46,14 @@ stdenv_32bit.mkDerivation rec {
     cp ${src}/scripts/posix/start.sh $out/bin/millennium
     runHook postInstall
   '';
+
   postFixup = ''
     substituteInPlace $out/bin/millennium \
       --replace '${bash}/bin/bash' '${steam-run}/bin/steam-run bash' \
       --replace '/usr/lib/millennium' '../lib' \
       --replace '/usr/lib/steam/steam' '~/.steam/steam/steam.sh'
   '';
+
   NIX_CFLAGS_COMPILE = ["-isystem ${python311}/include/${python311.libPrefix}"];
   NIX_LDFLAGS = ["-l${python311.libPrefix}"];
 
